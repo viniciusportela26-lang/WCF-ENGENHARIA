@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="WCF Engenharia e Projetos - Soluções em Metalurgia, Desenvolvimentos Especiais e Projetos Mecânicos em Pederneiras e região.">
+    <title>WCF Engenharia e Projetos</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    
+    <style>
+        /* --- CONFIGURAÇÕES GERAIS --- */
+        :root {
+            --primary: #0f172a;    /* Azul Petróleo Escuro (Industrial) */
+            --secondary: #334155;  /* Cinza Aço */
+            --accent: #eab308;     /* Amarelo Segurança (Destaque) */
+            --light: #f1f5f9;      /* Fundo Claro */
+            --text: #1e293b;       /* Texto Escuro */
+            --white: #ffffff;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        html { scroll-behavior: smooth; }
+        body { line-height: 1.6; color: var(--text); background-color: var(--light); }
+
+        /* --- CABEÇALHO --- */
+        header {
+            background: var(--primary);
+            color: var(--white);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            height: 80px;
+        }
+
+        /* LOGO: Configurado para Imagem ou Texto */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        
+        .logo-img {
+            height: 55px; /* Altura máxima do logo */
+            width: auto;
+            display: block; /* Garante que a imagem se comporte bem */
+        }
+        
+        /* Estilo alternativo caso a imagem não carregue (Texto) */
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: var(--white);
+            display: none; /* Escondido por padrão, aparece via JS se a imagem falhar */
+        }
+        .logo-text span { color: var(--accent); }
+
+        /* MENU DESKTOP */
+        nav ul { list-style: none; display: flex; gap: 25px; }
+        nav a { color: var(--white); text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: 0.3s; text-transform: uppercase; }
+        nav a:hover { color: var(--accent); }
+
+        /* --- HERO (CAPA) --- */
+        .hero {
+            height: 100vh;
+            /* Imagem de fundo industrial escura */
+            background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.7)), url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Efeito Parallax */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            padding: 0 20px;
+            margin-top: 0;
+        }
+
+        .hero-content { max-width: 900px; animation: fadeIn 1.5s ease-in-out; }
+        .hero-content h1 { font-size: 3.5rem; line-height: 1.2; margin-bottom: 20px; font-weight: 800; text-transform: uppercase; }
+        .hero-content h1 span { color: var(--accent); }
+        .hero-content p { font-size: 1.3rem; margin-bottom: 40px; color: #cbd5e1; }
+        
+        .btn-cta {
+            background: var(--accent);
+            color: var(--primary);
+            padding: 15px 40px;
+            text-decoration: none;
+            font-weight: 800;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(234, 179, 8, 0.4);
+        }
+        .btn-cta:hover { background: #ca8a04; transform: translateY(-2px); }
+
+        /* --- SEÇÕES PADRÃO --- */
+        section { padding: 80px 5%; }
+        h2 { text-align: center; margin-bottom: 50px; color: var(--primary); font-size: 2.2rem; font-weight: 700; position: relative; }
+        h2::after { content: ''; display: block; width: 60px; height: 4px; background: var(--accent); margin: 15px auto 0; }
+
+        /* --- SERVIÇOS (CARDS) --- */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .card {
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+            border-bottom: 4px solid var(--accent);
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15); }
+        
+        .card-img { height: 200px; width: 100%; object-fit: cover; }
+        
+        .card-body { padding: 30px; text-align: left; }
+        .card h3 { margin-bottom: 15px; color: var(--primary); font-size: 1.4rem; }
+        .card p { color: #64748b; font-size: 0.95rem; }
+
+        /* --- SOBRE NÓS --- */
+        .about-section { background-color: var(--white); display: flex; flex-wrap: wrap; gap: 50px; align-items: center; justify-content: center; }
+        .about-text { flex: 1; min-width: 300px; max-width: 600px; }
+        .about-text p { margin-bottom: 20px; font-size: 1.1rem; }
+        .about-img { flex: 1; min-width: 300px; max-width: 500px; border-radius: 8px; box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
+
+        /* --- CONTATO --- */
+        .contact-section { background-color: var(--primary); color: var(--white); text-align: center; }
+        .contact-section h2 { color: var(--white); }
+        .contact-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 40px; }
+        
+        .contact-box {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 8px;
+            min-width: 280px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .contact-box h3 { color: var(--accent); margin-bottom: 15px; font-size: 1.3rem; }
+        .contact-box p { font-size: 1.1rem; margin-bottom: 10px; }
+        
+        .whatsapp-btn-large {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #25D366;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 1.1rem;
+            margin-top: 30px;
+            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+            transition: 0.3s;
+        }
+        .whatsapp-btn-large:hover { background-color: #20bd5a; transform: scale(1.05); }
+
+        /* RODAPÉ */
+        footer { background: #020617; color: #94a3b8; text-align: center; padding: 30px; font-size: 0.9rem; }
+
+        /* RESPONSIVO MOBILE */
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.2rem; }
+            nav { display: none; } /* Em versão simples, ocultamos o menu no mobile para não quebrar */
+            header { justify-content: center; }
+        }
+        
+        /* Animação simples */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo-container">
+            <img src="logo.png" alt="WCF Engenharia" class="logo-img" onerror="this.style.display='none'; document.getElementById('logo-backup').style.display='block';">
+            <div id="logo-backup" class="logo-text">WCF <span>ENGENHARIA</span></div>
+        </a>
+
+        <nav>
+            <ul>
+                <li><a href="#servicos">Serviços</a></li>
+                <li><a href="#sobre">A Empresa</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Soluções em Metalurgia <br>e <span>Projetos Especiais</span></h1>
+            <p>Engenharia Mecânica, Projetos Técnicos e Fabricação de Alta Precisão. <br>Do conceito à execução final.</p>
+            <a href="https://wa.me/5514998531809?text=Ol%C3%A1%2C%20gostaria%20de%20um%20or%C3%A7amento%20para%20um%20projeto." target="_blank" class="btn-cta">
+                Solicitar Orçamento
+            </a>
+        </div>
+    </section>
+
+    <section id="servicos">
+        <h2>O Que Fazemos</h2>
+        <div class="services-grid">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?auto=format&fit=crop&w=800&q=80" alt="Máquina Industrial" class="card-img">
+                <div class="card-body">
+                    <h3>Desenvolvimentos Especiais</h3>
+                    <p>Máquinas e dispositivos criados sob medida para a sua necessidade. Automação de processos e melhorias de linha de produção.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80" alt="Projeto CAD" class="card-img">
+                <div class="card-body">
+                    <h3>Projetos Mecânicos</h3>
+                    <p>Engenharia de detalhe, modelagem 3D, cálculos estruturais e emissão de ART. Transformamos ideias em desenhos técnicos precisos.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80" alt="Solda e Metalurgia" class="card-img">
+                <div class="card-body">
+                    <h3>Metalurgia e Solda</h3>
+                    <p>Execução completa com soldadores qualificados. Estruturas metálicas, tanques e componentes industriais de alta resistência.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="sobre" class="about-section">
+        <div class="about-text">
+            <h2>A WCF Engenharia</h2>
+            <p>Nascemos para suprir uma lacuna no mercado industrial de Pederneiras e região: a união entre a <strong>engenharia de escritório</strong> e a <strong>prática de chão de fábrica</strong>.</p>
+            <p>Somos formados por um time técnico completo: Engenharia, Projetos e Execução. Isso significa que não apenas desenhamos a solução, mas garantimos que ela será fabricada e instalada com a máxima qualidade.</p>
+            <p><strong>Nossa Missão:</strong> Entregar soluções mecânicas que aumentam a produtividade e segurança dos nossos clientes.</p>
+        </div>
+        <img src="https://images.unsplash.com/photo-1531834685032-c34bf0d84c77?auto=format&fit=crop&w=800&q=80" alt="Engenheiro analisando projeto" class="about-img">
+    </section>
+
+    <section id="contato" class="contact-section">
+        <h2>Vamos conversar sobre seu projeto?</h2>
+        <p>Entre em contato para uma visita técnica ou orçamento sem compromisso.</p>
+        
+        <div class="contact-container">
+            <div class="contact-box">
+                <h3>📍 Localização</h3>
+                <p>Pederneiras - SP</p>
+                <p>Atendemos toda a região</p>
+            </div>
+            <div class="contact-box">
+                <h3>📧 E-mail</h3>
+                <p>contato@wcfengenharia.com.br</p>
+                <p>(Clique abaixo para WhatsApp)</p>
+            </div>
+        </div>
+
+        <a href="https://wa.me/5514998531809?text=Ol%C3%A1%2C%20vi%20o%20site%20da%20WCF%20e%20gostaria%20de%20falar%20sobre%20um%20projeto." target="_blank" class="whatsapp-btn-large">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.596 2.654-.695c.969.588 1.956.887 3.064.888 3.182 0 5.768-2.587 5.769-5.766.001-3.18-2.585-5.766-5.767-5.766zm9.24 3.282c-.624-.624-1.464-1.21-2.457-1.742-1.636-.888-3.486-1.353-5.344-1.353-6.22 0-11.28 5.06-11.28 11.28 0 2.02.531 3.96 1.543 5.672l-1.733 6.327 6.474-1.696c1.652.96 3.535 1.467 5.437 1.467 6.22 0 11.28-5.06 11.28-11.28-.001-2.903-1.13-5.63-3.18-7.675z"/></svg>
+            Chamar no WhatsApp (14) 99853-1809
+        </a>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 WCF Engenharia e Projetos. Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>
